@@ -15,7 +15,7 @@
 
 <h3 dir="rtl">In Memory Database</h3>
 
-در تسک اول از شما می‌خواهیم یک In Memory Database برامون پیاده‌سازی کنید که می‌توانید توضیحات بیشتر را [اینجا](./in-memory-db/README.md) بخوانید.
+در تسک اول از شما می‌خواهیم یک In Memory Database برامون پیاده‌سازی کنید که می‌توانید توضیحات بیشتر را [اینجا](./in-memory-db/readme.md) بخوانید.
 
 <h3 dir="rtl">Docker</h3>
 
