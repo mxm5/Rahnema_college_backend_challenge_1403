@@ -10,7 +10,7 @@
 2. ورژن `test` ایمیج زیر را پول کنید.
 
 ```
-registry.hamdocker.ir/mohamadzangooei/rahnema
+collegedev/interview_task
 ```
 
 3. ایمیج رو در حالت اینترکتیو (Interactive mode) ران کنید. (اگه ایمیج رو به صورت عادی ران کنید کانتینرتون قبل از اینکه بتونید بهش ورودی بدین kill میشه)
