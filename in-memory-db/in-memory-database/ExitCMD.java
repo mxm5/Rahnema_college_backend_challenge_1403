@@ -5,8 +5,9 @@ public class ExitCMD extends CommandStereoType {
 
     @Override
     public Result runCommand() {
+        Result res = new Result("exitting the system");
         System.exit(0);
-        return null;
+        return res;
     }
 
     @Override

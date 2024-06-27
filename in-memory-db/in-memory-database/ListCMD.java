@@ -5,11 +5,11 @@ public class ListCMD extends CommandStereoType {
 
     @Override
     public Result runCommand() {
-        return null;
+        return new Result("available data bases are : "+availableDatabases);
     }
 
     @Override
     protected void runValidateChecksAndSetParams() {
-
+        checkForLengthMoreThan(1);
     }
 }
