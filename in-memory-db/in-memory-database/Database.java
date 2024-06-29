@@ -67,9 +67,10 @@ public class Database {
 
         for (String givenKeyString : allKeys) {
             Matcher matcher = geivenPattern.matcher(givenKeyString);
-            if (matcher.find()) {
+            while (matcher.find()) {
                 foundResultCounter++;
-                if (foundResultCounter >= startingMatchingResultsCount && foundResultCounter <= theMaximumMatchingResultsCount) {
+                if (foundResultCounter >= startingMatchingResultsCount
+                        && foundResultCounter <= theMaximumMatchingResultsCount) {
                     results.add(givenKeyString);
                 }
             }

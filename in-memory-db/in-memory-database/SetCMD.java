@@ -12,6 +12,21 @@ public class SetCMD extends CommandStereoType {
 
     @Override
     protected void runValidateChecksAndSetParams() {
+        checkForLengthLessThan(3);
+        checkForLengthMoreThan(4);
+        setKey();
+        setValue();
+        setTimeToLive();
+    }
 
+    private void setTimeToLive() {
+    }
+
+    private void setValue() {
+        
+    }
+
+    private void setKey() {
+        
     }
 }
