@@ -1,5 +1,9 @@
 # your commands
 
-
+docker pull collegedev/interview_task:test
+docker run -it collegedev/interview_task:test
 
 # the name and password
+
+Please enter your name: mohammad
+Your password is 'U2FsdGVkX19rPaF3OVNj+zCeD0V6Yq6AAZi+ok2Skdw='
