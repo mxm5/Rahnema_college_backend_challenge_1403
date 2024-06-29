@@ -3,6 +3,14 @@ import java.util.List;
 
 public abstract class CommandStereoType {
 
+
+    {
+        // initialization block
+        // create a database with the
+    }
+
+
+
     final protected String[] commandChain;
     protected Database selectedDatabase /*= makeSystemDefaultDatabase*/;
     final protected List<Database> availableDatabases = new ArrayList<>();

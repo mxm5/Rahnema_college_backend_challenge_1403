@@ -5,7 +5,8 @@ public class SyntaxError extends CommandStereoType {
 
     @Override
     protected Result runCommand() {
-        return null;
+
+        return new Result("you are typing incorrectly please write a defined command or type help to see how to use the software but help is not implemented yet ! HeHe just invite me time is short to implement help command ");
     }
 
     @Override
