@@ -7,6 +7,9 @@ public abstract class CommandStereoType {
     {
         // initialization block
         // create a database with the
+        Database defaultDataBase = new Database(
+                "0",100,EvictionPolicy.random
+        );
     }
 
 
