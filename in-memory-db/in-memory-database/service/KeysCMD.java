@@ -1,5 +1,9 @@
+package service;
+
+import entities.CommandStereoType;
+import entities.Result;
+
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class KeysCMD extends CommandStereoType {
     private int pageNumber = 1;

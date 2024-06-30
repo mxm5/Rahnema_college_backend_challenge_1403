@@ -1,3 +1,8 @@
+package service;
+
+import entities.CommandStereoType;
+import entities.Result;
+
 public class GetCMD extends CommandStereoType {
     public GetCMD(String[] commandChain) {
         super(commandChain);
@@ -7,7 +12,7 @@ public class GetCMD extends CommandStereoType {
 
     @Override
     protected Result runCommand() {
-        return selectedDatabase.get(key);
+        return getSelectedDatabase().get(key);
     }
 
     @Override

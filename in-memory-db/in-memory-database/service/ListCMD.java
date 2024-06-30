@@ -1,3 +1,8 @@
+package service;
+
+import entities.CommandStereoType;
+import entities.Result;
+
 public class ListCMD extends CommandStereoType {
     public ListCMD(String[] commandChain) {
         super(commandChain);

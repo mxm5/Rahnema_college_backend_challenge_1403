@@ -1,3 +1,5 @@
+package entities;
+
 public enum EvictionPolicy {
     random("random"), noeviction("noeviction"), lru("lru");
 

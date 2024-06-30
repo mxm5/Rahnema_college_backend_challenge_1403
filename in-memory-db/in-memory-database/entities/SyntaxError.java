@@ -1,3 +1,5 @@
+package entities;
+
 public class SyntaxError extends CommandStereoType {
     public SyntaxError(String[] commandChain) {
         super(commandChain);

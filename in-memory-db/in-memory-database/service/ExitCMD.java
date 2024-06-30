@@ -1,3 +1,8 @@
+package service;
+
+import entities.CommandStereoType;
+import entities.Result;
+
 public class ExitCMD extends CommandStereoType {
     public ExitCMD(String[] cmd) {
         super(cmd);

@@ -1,3 +1,7 @@
+import entities.CommandStereoType;
+import entities.SyntaxError;
+import service.*;
+
 public class CommandFactory {
 
 

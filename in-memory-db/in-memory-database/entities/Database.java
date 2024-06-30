@@ -1,3 +1,5 @@
+package entities;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -5,7 +7,7 @@ import java.util.regex.Pattern;
 public class Database {
 
 
-    private final Map<String, Item> storage = new LinkedHashMap<>();
+    private final Map<String, Item> storage = new HashMap<>();
     private final String name;
     private final Integer maxItemsSize;
     private final EvictionPolicy evictionPolicy;
@@ -27,11 +29,8 @@ public class Database {
         this.name = name;
         this.maxItemsSize = maxItemsSize;
         this.evictionPolicy = evictionPolicy;
-        this.evictionRankingService = new EvictionRankingService(evictionPolicy);
     }
 
-
-    private EvictionRankingService evictionRankingService = new EvictionRankingService(EvictionPolicy.random);
 
     private int currentItemSize = 0;
 

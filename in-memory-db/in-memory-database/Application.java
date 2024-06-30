@@ -1,4 +1,5 @@
-import java.io.PushbackReader;
+import entities.CommandStereoType;
+import entities.ConsoleIOHandlerBlocking;
 
 public class Application {
 
@@ -23,7 +24,7 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
 
-        BlockingInputOutputCommandsHandler IO = new ConsoleIOHandlerBlocking();
+        ConsoleIOHandlerBlocking IO = new ConsoleIOHandlerBlocking();
         printBanner();
         runCliCommandExcecutionLoop(IO);
 
@@ -35,7 +36,7 @@ public class Application {
         System.out.println(userGuide);
     }
 
-    private static void runCliCommandExcecutionLoop(BlockingInputOutputCommandsHandler IO) {
+    private static void runCliCommandExcecutionLoop(ConsoleIOHandlerBlocking IO) {
         while (true) {
             try {
                 processCommand(IO.readCommand());

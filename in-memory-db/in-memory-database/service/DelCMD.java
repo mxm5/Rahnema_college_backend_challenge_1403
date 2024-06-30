@@ -1,8 +1,12 @@
-import jdk.jshell.spi.ExecutionControl;
+package service;
+
+import entities.CommandStereoType;
+import entities.Result;
 
 public class DelCMD extends CommandStereoType {
     public DelCMD(String[] commandChain) {
         super(commandChain);
+        this.selectedDatabase = super.selectedDatabase;
     }
 
     String key;
