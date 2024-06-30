@@ -10,7 +10,7 @@ public class ListCMD extends CommandStereoType {
 
     @Override
     public Result runCommand() {
-        return new Result("available data bases are : "+availableDatabases);
+        return new Result("available data bases are : "+getAvailableDatabases());
     }
 
     @Override

@@ -15,7 +15,7 @@ public class SetCMD extends CommandStereoType {
 
     @Override
     protected Result runCommand() {
-        return selectedDatabase.set(key, value);
+        return getSelectedDatabase().set(key, value);
     }
 
     @Override

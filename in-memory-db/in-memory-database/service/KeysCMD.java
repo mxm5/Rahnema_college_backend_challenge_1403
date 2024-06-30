@@ -18,7 +18,7 @@ public class KeysCMD extends CommandStereoType {
     @Override
     public Result runCommand() {
 
-        return selectedDatabase.searchPaginatedByRegex(regex,pageNumber,limit);
+        return getSelectedDatabase().searchPaginatedByRegex(regex,pageNumber,limit);
     }
 
     @Override

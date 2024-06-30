@@ -6,14 +6,14 @@ import entities.Result;
 public class DelCMD extends CommandStereoType {
     public DelCMD(String[] commandChain) {
         super(commandChain);
-        this.selectedDatabase = super.selectedDatabase;
+
     }
 
     String key;
 
     @Override
     protected Result runCommand() {
-        boolean res = selectedDatabase.del(key);
+        boolean res = getSelectedDatabase().del(key);
         return new Result("the data was removing result was " + res);
     }
 

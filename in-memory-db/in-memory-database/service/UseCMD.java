@@ -24,11 +24,11 @@ public class UseCMD extends CommandStereoType {
             Database createdDataBase = createDatabaseByParameters();
             selectDatabase(createdDataBase);
         } else selectDatabase(database.get());
-        return new Result("successfully selected given database :" + selectedDatabase.getName());
+        return new Result("successfully selected given database :" + getSelectedDatabase().getName());
     }
 
     private void selectDatabase(Database createdDataBase) {
-        selectedDatabase = createdDataBase;
+        setSelectedDatabase(createdDataBase);
     }
 
     private Database createDatabaseByParameters() {
@@ -71,6 +71,6 @@ public class UseCMD extends CommandStereoType {
 
 
     private Optional<Database> searchDatabasesByName(String name) {
-        return availableDatabases.stream().filter(database -> Objects.equals(database.getName(), name)).findFirst();
+        return getAvailableDatabases().stream().filter(database -> Objects.equals(database.getName(), name)).findFirst();
     }
 }
