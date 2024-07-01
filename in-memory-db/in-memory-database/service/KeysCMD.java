@@ -17,8 +17,9 @@ public class KeysCMD extends CommandStereoType {
 
     @Override
     public Result runCommand() {
-
-        return getSelectedDatabase().searchPaginatedByRegex(regex,pageNumber,limit);
+        Result result = getSelectedDatabase().searchPaginatedByRegex(regex, pageNumber, limit);
+        result.getFoundResults().forEach(System.out::println);
+        return result;
     }
 
     @Override
@@ -35,14 +36,16 @@ public class KeysCMD extends CommandStereoType {
                 this.pageNumber = Integer.parseInt(commandChain[3]);
             }
         } catch (Exception e) {
-            throw new RuntimeException("pages could not be set using default page 1");
+            new Result("pages could not be set using default page 1");
+            this.pageNumber = 1;
         }
         try {
             if (Objects.equals(commandChain[4].toLowerCase(), "limit")) {
                 this.limit = Integer.parseInt(commandChain[5]);
             }
         } catch (Exception e) {
-            throw new RuntimeException("pages could not be set using default page 1");
+             new Result("pages could not be set using default page 1");
+             this.limit = 10;
         }
 
     }

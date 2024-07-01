@@ -6,7 +6,7 @@ import entities.Result;
 public class SetCMD extends CommandStereoType {
     private String value;
     private String key;
-    private int timeToLive;
+    private Integer timeToLive;
 
 
     public SetCMD(String[] commandChain) {
@@ -15,7 +15,7 @@ public class SetCMD extends CommandStereoType {
 
     @Override
     protected Result runCommand() {
-        return getSelectedDatabase().set(key, value);
+        return getSelectedDatabase().set(key, value,timeToLive);
     }
 
     @Override

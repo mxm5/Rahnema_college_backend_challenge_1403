@@ -10,6 +10,7 @@ public class ConsoleIOHandlerBlocking {
     public String[] readCommand() throws Exception {
         String usersInput = scanner.nextLine();
         String cleanedUserInput = usersInput.strip();
+        cleanedUserInput = cleanedUserInput.trim();
         String[] userCommandsChainsArray = cleanedUserInput.split(" ");
         return userCommandsChainsArray;
     }

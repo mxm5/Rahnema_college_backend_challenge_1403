@@ -5,8 +5,10 @@ import entities.Database;
 import entities.EvictionPolicy;
 import entities.Result;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UseCMD extends CommandStereoType {
     public UseCMD(String[] commandChain) {
@@ -19,11 +21,17 @@ public class UseCMD extends CommandStereoType {
 
     @Override
     public Result runCommand() {
-        Optional<Database> database = searchDatabasesByName(databaseName);
+        Optional<Database> database = Optional.empty();
+        if (!getAvailableDatabases().isEmpty()) {
+            database = searchDatabasesByName(databaseName);
+        }
         if (database.isEmpty()) {
             Database createdDataBase = createDatabaseByParameters();
-            selectDatabase(createdDataBase);
-        } else selectDatabase(database.get());
+            getAvailableDatabases().add(createdDataBase);
+            setSelectedDatabase(createdDataBase);
+        } else {
+            setSelectedDatabase(database.get());
+        }
         return new Result("successfully selected given database :" + getSelectedDatabase().getName());
     }
 
@@ -59,9 +67,14 @@ public class UseCMD extends CommandStereoType {
 
     private void setDatabaseMaximumSize() {
         try {
-            databaseMaximumSize = Integer.parseInt(commandChain[2]);
-        } catch (Exception e) {
+            if (commandChain.length > 2) {
+                databaseMaximumSize = Integer.parseInt(commandChain[2]);
+            }
+        } catch (NumberFormatException numberFormatException) {
             throw new RuntimeException(" database max size must be a number");
+        }
+        if (databaseMaximumSize == null) {
+            databaseMaximumSize = 10;
         }
     }
 

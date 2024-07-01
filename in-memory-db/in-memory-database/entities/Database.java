@@ -1,5 +1,7 @@
 package entities;
 
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,7 +9,7 @@ import java.util.regex.Pattern;
 public class Database {
 
 
-    private final Map<String, Item> storage = new HashMap<>();
+    private final Map<String, Item> storage = new LinkedHashMap<>();
     private final String name;
     private final Integer maxItemsSize;
     private final EvictionPolicy evictionPolicy;
@@ -38,7 +40,10 @@ public class Database {
 
         Item remove = storage.remove(key);
         boolean result = !Objects.isNull(remove);
-        if (result) --currentItemSize;
+        if (result) {
+            new Result("deleted the key : " + key + " and value : " + remove.value);
+            --currentItemSize;
+        }
         return result;
 
     }
@@ -51,19 +56,33 @@ public class Database {
         Result result = new Result("item found for given key " + '\n' + item.value);
         result.setKey(key);
         result.setValue(item);
+        if (EvictionPolicy.lru.equals(evictionPolicy)) {
+            updateRankInLRUGradingToMostRecentUsed(key);
+        }
         return result;
     }
 
     private boolean checkForIsExpired(Item item) {
-        Date currentDate = new Date();
-        boolean checkResult = item.expirationDate.before(currentDate);
-        if (!checkResult) --currentItemSize;
-        return checkResult;
+        if (!Objects.isNull(item.expirationDate)) {
+            Date currentDate = new Date();
+            boolean checkResult = item.expirationDate.before(currentDate);
+            if (!checkResult) --currentItemSize;
+            return checkResult;
+        } else {
+            return false;
+        }
     }
 
     public Result searchPaginatedByRegex(String regex, int pageNumber, int limit) {
 
         Set<String> allKeys = storage.keySet();
+        if (allKeys.isEmpty()) {
+            Result result = new Result("no keys found");
+            result.setFoundResults(new ArrayList<>());
+            return result;
+        }
+        // there is no indexed api to direct access
+        // in order to get to the page of the one hundred we should take the
 
         int theMaximumMatchingResultsCount = pageNumber * limit;
 
@@ -91,33 +110,63 @@ public class Database {
 
     }
 
-    public Result set(String key, String value) {
+    public Result set(String key, String value, Integer timeToLive) {
+        Item correspondingItem;
+        if (timeToLive == null) {
+            correspondingItem = new Item(null, value);
+        } else {
+            Date expirationDate = calculateExpirationDate(timeToLive);
+            correspondingItem = new Item(expirationDate, value);
+        }
 
         if (checkAvailableSpot()) {
-            storage.put(key, new Item(new Date(), value));
+            storage.put(key, correspondingItem);
             currentItemSize++;
             if (EvictionPolicy.lru.equals(evictionPolicy)) updateRankInLRUGradingToMostRecentUsed(key);
+            return new Result("successfully added the item { key : " + key + " , value : " + value + " }");
         }
-        return new Result("successfully added the item { key : " + key + " , value : " + value + " }");
+        return new Result("item could not be added to the storage " + '\n' + "null");
+    }
+
+    private static Date calculateExpirationDate(Integer timeToLive) {
+        Duration duration = Duration.of(timeToLive, ChronoUnit.SECONDS);
+        Date currentTime = new Date();
+        Instant instant = currentTime.toInstant();
+        ZoneId systemDefaultZoneId = ZoneId.systemDefault();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, systemDefaultZoneId);
+        LocalDateTime localDateTimePlusTimeToLiveSeconds = localDateTime.plus(duration);
+        ZonedDateTime expirationZonedDateTime = ZonedDateTime.of(localDateTimePlusTimeToLiveSeconds, systemDefaultZoneId);
+        Date expirationDate = Date.from(expirationZonedDateTime.toInstant());
+        return expirationDate;
     }
 
     private boolean checkAvailableSpot() {
         if (currentItemSize == maxItemsSize) {
-            return makeSpotByPolicyOrRejectNewMember();
+            new Result("maximum size : " + getMaxItemsSize() + " reached ");
+            if (!EvictionPolicy.noeviction.equals(evictionPolicy)) {
+                return makeSpotByPolicyOrRejectNewMember();
+            } else {
+                new Result("no eviction policy remove available elements before adding new spot");
+                return false;
+            }
         }
         return true;
     }
 
     private boolean makeSpotByPolicyOrRejectNewMember() {
+        new Result("trying to create new spot");
         if (EvictionPolicy.random.equals(evictionPolicy)) {
+            new Result("eviction policy is random! trying to remove a key randomly ");
             String randomkeyCandidateToBeEvicted = getARandomKey();
+            new Result("selected key candidate was: " + randomkeyCandidateToBeEvicted);
             if (randomkeyCandidateToBeEvicted != null) {
                 return del(randomkeyCandidateToBeEvicted);
             }
             return false;
         } else if (EvictionPolicy.lru.equals(evictionPolicy)) {
-
+            new Result("eviction policy is least recently used! trying to find most lowest rank in LRU system");
             String lruKeyCandidateToBeEvicted = findLeastResentUsedKeyInLRUGrading();
+            new Result("selected key candidate was: " + lruKeyCandidateToBeEvicted);
             if (lruKeyCandidateToBeEvicted != null) {
                 return del(lruKeyCandidateToBeEvicted);
             }
@@ -163,12 +212,22 @@ public class Database {
         String keyToBeEvicted = null;
         int counter = 0;
         while (iterator.hasNext()) {
-            counter++;
+
             Object next = iterator.next();
             if (counter == randomIndex) {
                 keyToBeEvicted = ((String) next);
             }
+            counter++;
         }
         return keyToBeEvicted;
+    }
+
+    @Override
+    public String toString() {
+        return "Database:{" +
+                "name='" + name + '\'' +
+                ", maxItemsSize=" + maxItemsSize +
+                ", evictionPolicy=" + evictionPolicy +
+                '}';
     }
 }

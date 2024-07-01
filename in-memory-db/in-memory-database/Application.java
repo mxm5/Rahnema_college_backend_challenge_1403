@@ -3,7 +3,8 @@ import entities.ConsoleIOHandlerBlocking;
 
 public class Application {
 
-    public static String banner = "         _.-``__ ''-._                                             \n" +
+    public static String banner =
+            "           _.-``__ ''-._                                             \n" +
             "      _.-``    `.  `_.  ''-._           \n" +
             "  .-`` .-```.  ```\\/    _.,_ ''-._                                   \n" +
             " (    '      ,       .-`  | `,    )     \n" +
@@ -26,7 +27,7 @@ public class Application {
 
         ConsoleIOHandlerBlocking IO = new ConsoleIOHandlerBlocking();
         printBanner();
-        runCliCommandExcecutionLoop(IO);
+        runCliCommandExecutionLoop(IO);
 
     }
 
@@ -36,14 +37,13 @@ public class Application {
         System.out.println(userGuide);
     }
 
-    private static void runCliCommandExcecutionLoop(ConsoleIOHandlerBlocking IO) {
+    private static void runCliCommandExecutionLoop(ConsoleIOHandlerBlocking IO) {
         while (true) {
             try {
                 processCommand(IO.readCommand());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-
         }
     }
 

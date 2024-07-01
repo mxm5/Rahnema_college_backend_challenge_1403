@@ -6,31 +6,13 @@ import java.util.List;
 public abstract class CommandStereoType {
 
 
-//    {
-//        // initialization block
-//        // create a database with the
-//        this.availableDatabases = new ArrayList<>();
-//        if (this.availableDatabases.) {
-//            Database defaultDataBase = new Database(
-//                    "0", 100, EvictionPolicy.random
-//            );
-//        }
-//
-//        this.selectedDatabase = defaultDataBase;
-//        this.availableDatabases.add(this.selectedDatabase);
-//    }
-
-
     final protected String[] commandChain;
-    private Database selectedDatabase ;
-    private List<Database> availableDatabases;
+    private static Database selectedDatabase;
+    private static List<Database> availableDatabases;
 
     public CommandStereoType(String[] commandChain) {
         this.commandChain = commandChain;
-
     }
-
-
 
 
     protected void checkForLengthMoreThan(int maximumLength) {
@@ -55,7 +37,22 @@ public abstract class CommandStereoType {
     protected abstract void runValidateChecksAndSetParams();
 
     public Database getSelectedDatabase() {
+
+        if (selectedDatabase == null) {
+            initializeDatabases();
+        }
+
         return selectedDatabase;
+    }
+
+    private static void initializeDatabases() {
+        if (selectedDatabase == null && availableDatabases != null && availableDatabases.size() > 0) {
+            selectedDatabase = availableDatabases.getFirst();
+        } else if (availableDatabases == null && selectedDatabase == null) {
+            availableDatabases = new ArrayList<>();
+            selectedDatabase = new Database("0", 10, EvictionPolicy.random);
+            availableDatabases.add(selectedDatabase);
+        }
     }
 
     public void setSelectedDatabase(Database selectedDatabase) {
@@ -63,6 +60,11 @@ public abstract class CommandStereoType {
     }
 
     public List<Database> getAvailableDatabases() {
+
+        if (availableDatabases == null) {
+            initializeDatabases();
+        }
+
         return availableDatabases;
     }
 
